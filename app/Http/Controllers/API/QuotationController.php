@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Quote;
 use App\Rules\Ages;
 use App\Rules\CurrencyId;
 use Illuminate\Http\Request;
@@ -23,9 +24,21 @@ class QuotationController extends BaseController
         if($validator->fails()){
             return $this->handleError($validator->errors());
         }
-
         $input = $request->all();
-        $result = ['test' => 1, 'result' => 2];
-        dd($result);
+        $input['user_id'] = $request->user()->id;
+        try {
+            $quote = new Quote($input);
+        } catch(\Exception $e) {
+            return $this->handleError($e->getMessage());
+        }
+
+        $quote->save();
+
+        $response = [
+            'total' => number_format($quote->price, 2),
+            'currency_id' => $quote->currency_id,
+            'quotation_id' => $quote->id
+        ];
+        return response()->json($response);
     }
 }
