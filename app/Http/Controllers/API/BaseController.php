@@ -23,7 +23,7 @@ class BaseController extends Controller
     {
         $res = [
             'success' => false,
-            'message' => $error,
+            'errors' => $error,
         ];
         if(!empty($errorMsg)){
             $res['data'] = $errorMsg;
