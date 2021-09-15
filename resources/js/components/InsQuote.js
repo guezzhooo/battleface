@@ -4,10 +4,10 @@ class InsQuote extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            start_date: '2021-09-15',
-            end_date: '2021-09-16',
-            age: '18',
-            currency_id: 'USD',
+            start_date: '',
+            end_date: '',
+            age: '',
+            currency_id: '',
             result: ''
         }
         this.handleChange = this.handleChange.bind(this);
