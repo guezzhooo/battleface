@@ -84,7 +84,8 @@ class InsQuote extends React.Component {
         });
     }
 
-    getQuote() {
+    getQuote(event) {
+        event.preventDefault();
         const token = this.props.token;
         const data = {
             "age": this.state.age,
@@ -106,12 +107,21 @@ class InsQuote extends React.Component {
             })
             .catch((error) => {
                 if(error.response) {
+                    this.setState({
+                        result: JSON.stringify(error.response.data)
+                    });
                     console.log(error.response.data);
                     console.log(error.response.status);
                     console.log(error.response.headers);
                 } else if(error.request) {
+                    this.setState({
+                        result: JSON.stringify(error.request)
+                    });
                     console.log(error.request);
                 } else {
+                    this.setState({
+                        result: error.message
+                    });
                     console.log('Error', error.message);
                 }
 
