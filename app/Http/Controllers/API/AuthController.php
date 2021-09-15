@@ -15,13 +15,14 @@ class AuthController extends BaseController
     {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $auth = Auth::user();
-            $success['token'] =  $auth->createToken('LaravelSanctumAuth')->plainTextToken;
-            $success['name'] =  $auth->name;
+            list($id, $token) = explode('|', $auth->createToken('LaravelSanctumAuth')->plainTextToken);
+            $res['token'] = $token;
+            $res['name'] =  $auth->name;
 
-            return $this->handleResponse($success, 'User logged-in!');
+            return response()->json($res, 200);
         }
         else{
-            return $this->handleError('Unauthorised.', ['error'=>'Unauthorised']);
+            return $this->handleError('Unauthorized.', ['error'=>'Unauthorized'], 401);
         }
     }
 
